@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   glog_catkin
   mav_msgs
   move_base
-  planning_msgs
+  mav_planning_msgs
   roscpp
   sensor_msgs
   tf

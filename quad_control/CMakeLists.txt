@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   mav_msgs
   roscpp
   sensor_msgs
-  planning_msgs
+  mav_planning_msgs
   tf
 )
 
@@ -109,7 +109,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES quad_controller
-  CATKIN_DEPENDS cmake_modules geometry_msgs glog_catkin mav_msgs roscpp sensor_msgs planning_msgs tf
+  CATKIN_DEPENDS cmake_modules geometry_msgs glog_catkin mav_msgs roscpp sensor_msgs mav_planning_msgs tf
 #  DEPENDS system_lib
 )
 
