@@ -29,7 +29,7 @@
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <sensor_msgs/Imu.h>
-#include <planning_msgs/WayPoint.h>
+#include <mav_planning_msgs/WayPoint.h>
 #include <mav_planning_msgs/eigen_planning_msgs.h>
 #include <mav_planning_msgs/conversions.h>
 #include <ros/ros.h>

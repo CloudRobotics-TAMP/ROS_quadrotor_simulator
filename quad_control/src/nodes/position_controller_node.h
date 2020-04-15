@@ -26,7 +26,7 @@
 #include <mav_msgs/CommandMotorSpeed.h>
 #include <mav_msgs/CommandTrajectory.h>
 #include <mav_msgs/MotorSpeed.h>
-#include <planning_msgs/WayPoint.h>
+#include <mav_planning_msgs/WayPoint.h>
 #include <mav_planning_msgs/eigen_planning_msgs.h>
 #include <mav_planning_msgs/conversions.h>
 #include <nav_msgs/Odometry.h>

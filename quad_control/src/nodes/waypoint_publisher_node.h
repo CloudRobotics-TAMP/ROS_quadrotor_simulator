@@ -32,7 +32,7 @@
 #include <mav_msgs/CommandTrajectory.h>
 #include <mav_msgs/eigen_mav_msgs.h>
 #include <mav_msgs/conversions.h>
-#include <planning_msgs/WayPoint.h>
+#include <mav_planning_msgs/WayPoint.h>
 #include <mav_planning_msgs/eigen_planning_msgs.h>
 #include <mav_planning_msgs/conversions.h>
 #include <nav_msgs/Odometry.h>
@@ -88,7 +88,7 @@ class WaypointPublisherNode {
 
   //Waypoint variables
   mav_planning_msgs::EigenWayPoint current_waypoint_;
-  planning_msgs::WayPoint desired_waypoint;
+  mav_planning_msgs::WayPoint desired_waypoint;
   mav_msgs::EigenCommandTrajectory command_trajectory;
   mav_msgs::EigenCommandTrajectory threedNav_trajectory;
   mav_msgs::CommandTrajectory desired_wp;
