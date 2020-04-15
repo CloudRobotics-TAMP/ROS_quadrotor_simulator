@@ -43,7 +43,7 @@ $ sudo apt-get -y install ros-melodic-mavros \
 
 ```
 $ cd $WORKSPACE/src
-$ git clone https://github.com/ElisaTosello/mav_comm.git
+$ git clone https://github.com/CloudRobotics-TAMP/mav_comm.git
 ```
 
 ### Install the glog catkin package
@@ -64,7 +64,7 @@ $ git clone https://github.com/catkin/catkin_simple.git
 
 ```
 $ cd $WORKSPACE/src
-$ git clone https://github.com/ElisaTosello/ROS_quadrotor_simulator.git
+$ git clone https://github.com/CloudRobotics-TAMP/ROS_quadrotor_simulator.git
 ```
  
 
