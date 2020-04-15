@@ -1,6 +1,4 @@
 # ROS Quadrotor Simulator
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwilselby%2FROS_quadrotor_simulator.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwilselby%2FROS_quadrotor_simulator?ref=badge_shield)
-
 
 This project focuses on simulating a quadrotor aerial vehicle for the development of flight control systems, autonomous navigation, obstacle avoidance, and path planning. This software relies on the Robot Operating System (ROS) software. ROS provides hardware abstraction, device drivers, libraries, visualizers, message-passing, package management, and more. Along with ROS, Gazebo is used for simulation. Gazebo offers the ability to accurately and efficiently simulate populations of robots in complex indoor and outdoor environments. 
 
@@ -20,99 +18,32 @@ This software package contains several modules, described below:
 - quad_joystick_interface - Package to interface with an Xbox controller to manually control the quadrotor
 
 
-## Getting Started
+## Dependencies for ROS Melodic and Gazebo 9.0:
 
-These instructions will cover the installation of ROS, Gazebo, and several other basic packages required for this software to run. This is a modified version of the scripts provided here https://github.com/AurelienRoy/ardupilot_sitl_ros_tutorial
-
-This first section installs ROS, and a few additional dependencies and compiled packages required for the Ardupilot simulation.
-
-### Install ROS and primary pacakges
-
-```
-$ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-$ sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-key 0xB01FA116
-$ sudo apt-get update
-```
-
-In case there was a missing dependency, you may try the following line. However, be careful not to attempt to desinstall-reinstall libgl1-mesa,for it sometimes messes up the ubuntu installation.
-
-```
-$ sudo apt-get -y install libgl1-mesa-dev-lts-utopic
-```
-
-Install ROS Indigo
-
-```
-$ sudo apt-get -y install ros-indigo-desktop-full
-$ sudo rosdep init
-$ rosdep update
-```
-
-Setup environment variables
-
-```
-$ sudo sh -c 'echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc'
-$ source ~/.bashrc
-```
-
-Get rosinstall and some additional dependencies
+Get
 
 ```
 $ sudo apt-get -y install python-rosinstall          \
-                        ros-indigo-octomap-msgs    \
-                        ros-indigo-joy             \
-                        ros-indigo-geodesy         \
-                        ros-indigo-octomap-ros     \
+                        ros-melodic-octomap-msgs    \
+                        ros-melodic-joy             \
+                        ros-melodic-geodesy         \
+                        ros-melodic-octomap-ros     \
 			            unzip
 ```
 
-If Gazebo 4.x was installed, it can simply be removed with the following commands:
+
+Install mavros
 
 ```
-$ sudo apt-get remove gazebo4
-$ sudo apt-get install libsdformat1
-$ sudo apt-get install gazebo2
+$ sudo apt-get -y install ros-melodic-mavros \
+			            ros-melodic-mavros-extras
 ```
-
-Additional Gazebo models can be downloaded from the OSRF repository (https://bitbucket.org/osrf/gazebo_models) and placed into the default Gazebo worlds folder for offline use
-
-Install mavros but from shadow repo to get latest version earlier
-
-```
-$ sudo sh -c 'echo "deb http://packages.ros.org/ros-shadow-fixed/ubuntu/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-shadow.list'
-$ sudo apt-get update
-$ sudo apt-get -y install ros-indigo-mavros \
-			            ros-indigo-mavros-extras
-```
-### Create the catkin workspace
-This next section creates a ROS workspace and fetch source repositories, placing them in the directory:
-
-```
-/home/<user>/ros/catkin_ws
-```
-
-Feel free to modify the destination path for the ROS workspace:
-
-```
-$ WORKSPACE=~/ros/catkin_ws
-$ source ~/.bashrc
-```
-
-Setup the workspace
-```
-$ mkdir -p $WORKSPACE/src
-$ cd $WORKSPACE/src
-$ catkin_init_workspace
-$ cd $WORKSPACE
-$ catkin_make
-$ sh -c "echo 'source $WORKSPACE/devel/setup.bash' >> ~/.bashrc"
- ```
 
 ### Install the mav comm package
 
 ```
 $ cd $WORKSPACE/src
-$ git clone https://github.com/PX4/mav_comm.git
+$ git clone https://github.com/CloudRobotics-TAMP/mav_comm.git
 ```
 
 ### Install the glog catkin package
@@ -133,7 +64,7 @@ $ git clone https://github.com/catkin/catkin_simple.git
 
 ```
 $ cd $WORKSPACE/src
-$ git clone https://github.com/wilselby/ROS_quadrotor_simulator
+$ git clone https://github.com/CloudRobotics-TAMP/ROS_quadrotor_simulator.git
 ```
  
 
@@ -142,23 +73,15 @@ RotorS is a UAV gazebo simulator developed by the Autonomous Systems Laboratory 
 
 ```
 $ cd $WORKSPACE/src
-$ git clone https://github.com/wilselby/rotors_simulator
-$ cd rotors_simulator
+$ git clone https://github.com/ethz-asl/rotors_simulator
 ```
-
-Check for any missing dependencies. It may throw an error of missing dependency on [gflags_catkin] for package "glog_catkin", but this error does not seem to disrupt the compilation (catkin_make).
-
-```
-$ rosdep install --from-paths src --ignore-src --rosdistro indigo -y
-```
-
  
-Compile the workspace
+Build the workspace
 
 ```
 $ cd $WORKSPACE
 $ source devel/setup.bash
-$ catkin_make
+$ catkin build
 ```
 
 ### Install Xbox 360 Controller 
@@ -182,41 +105,7 @@ The ROS wiki also contains a tutorial (http://wiki.ros.org/joy/Tutorials/Configu
 <param name="dev" type="string" value="/dev/input/js0" />
 ```
 
-### Model Verification
-See https://www.wilselby.com/research/ros-integration/model-dynamics-sensors/ for a more detailed walk through
-
-A command line tool check_urdf attempts to parse a file as a URDF description, and either prints a description of the resulting kinematic chain, or an error message. The first command creates a urdf file from the xacro file.
-
-```
-$ cd ros/catkin_ws/src/arducopter_slam/quad_description/urdf
-$ rosrun xacro xacro.py kit_c.xacro -o /tmp/kit_c.urdf
-```
-
-Then run the urdf check:
-
-```
-$ cd /tmp/
-$ check_urdf kit_c.urdf
-```
-
-The output will state the breakdown of the robot model	
-
-```
-robot name is: quad
----------- Successfully Parsed XML ---------------
-root Link: base_link has 5 child(ren)
-    child(1):  base_link_inertia
-    child(2):  rotor_0
-    child(3):  rotor_1
-    child(4):  rotor_2
-    child(5):  rotor_3
-```
-
-This output can be visualized using the command:
-
-```
-$ urdf_to_graphiz kit_c.urdf
-```
+### Launch the quadrotor model
 
 The quadrotor model can be visualized in Rviz by running the command
 
@@ -290,32 +179,3 @@ The 3D navigation simulation can be launched with the following command. To enab
 ```
 $ roslaunch quad_3dnav quad_3dnav.launch
 ```
-
-
-## Authors
-
-* **Wil Selby** - *Initial work* - 
-
-
-## License
-
-This project is licensed under the MIT License
-
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwilselby%2FROS_quadrotor_simulator.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwilselby%2FROS_quadrotor_simulator?ref=badge_large)
-
-## Acknowledgments and References
-
-https://pixhawk.org/dev/ros/sitl
-
-http://wiki.ros.org/indigo/Installation/Ubuntu
-
-http://gazebosim.org/tutorials?tut=drcsim_install
-
-http://dev.ardupilot.com/wiki/using-rosgazebo-simulator-with-sitl/
-
-https://github.com/AurelienRoy/ardupilot_sitl_ros_tutorial/tree/master/scripts
-<<<<<<< HEAD
-
-=======
->>>>>>> c4536e1d33df0f07f3b313e1a617cdbec296ee22
